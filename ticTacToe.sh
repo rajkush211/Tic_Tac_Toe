@@ -9,6 +9,8 @@ clear
 #CONSTANTS
 USER_LETTER=X
 COMP_LETTER=O
+USER_TURN=0
+COMP_TURN=1
 
 declare -A Board
 
@@ -25,8 +27,18 @@ function displayBoard() {
 	echo "---------------"
 }
 
-displayBoard
+function tossForTurn() {
+	toss=$(( RANDOM % 2 ))
+	case $toss in
+		$USER_TURN)
+			echo "You won the toss, your turn first";;
+		$COMP_TURN)
+			echo "You loss the toss, computer turn first";;
+	esac
+}
 
+displayBoard
 echo "You are assigned letter:- $USER_LETTER"
+tossForTurn
 
 sleep 1
