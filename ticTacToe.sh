@@ -6,6 +6,12 @@
 
 clear
 
+#CONSTANTS
+USER_LETTER=X
+COMP_LETTER=O
+
+declare -A Board
+
 function displayBoard() {
 	for (( i=0; i<3; i++ ))
 	do
@@ -20,5 +26,7 @@ function displayBoard() {
 }
 
 displayBoard
+
+echo "You are assigned letter:- $USER_LETTER"
 
 sleep 1
