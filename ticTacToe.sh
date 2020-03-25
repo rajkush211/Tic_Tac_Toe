@@ -14,7 +14,7 @@ COMP_TURN=1
 
 declare -A Board
 
-function displayBoard() {
+function resetBoard() {
 	for (( i=0; i<3; i++ ))
 	do
 		echo "---------------"
@@ -37,8 +37,22 @@ function tossForTurn() {
 	esac
 }
 
-displayBoard
+function displayBoard() {
+	count=0
+	for (( i=0; i<3; i++ ))
+	do
+		echo "---------------"
+		for (( j=0; j<3; j++ ))
+		do
+			echo -n "| $(( count++ )) |"
+		done
+		echo
+	done
+	echo "---------------"
+}
+
 echo "You are assigned letter:- $USER_LETTER"
 tossForTurn
+displayBoard
 
 sleep 1
