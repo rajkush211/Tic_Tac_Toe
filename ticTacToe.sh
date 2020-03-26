@@ -154,27 +154,53 @@ function checkCanWin() {
 		then
 			placeAtRow=2
 			placeAtColumn=2
+			break
 		elif [[ ${Board[0,0]} == $letter && ${Board[2,2]} == $letter && ${Board[1,1]} == " " ]]
 		then
 			placeAtRow=1
 			placeAtColumn=1
+			break
 		elif [[ ${Board[1,1]} == $letter && ${Board[2,2]} == $letter && ${Board[0,0]} == " " ]]
 		then
 			placeAtRow=0
 			placeAtColumn=0
+			break
 		elif [[ ${Board[0,2]} == $letter && ${Board[1,1]} == $letter && ${Board[2,0]} == " " ]]
 		then
 			placeAtRow=2
 			placeAtColumn=0
+			break
 		elif [[ ${Board[0,2]} == $letter && ${Board[2,0]} == $letter && ${Board[1,1]} == " " ]]
 		then
 			placeAtRow=1
 			placeAtColumn=1
+			break
 		elif [[ ${Board[1,1]} == $letter && ${Board[2,0]} == $letter && ${Board[0,2]} == " " ]]
 		then
 			placeAtRow=0
 			placeAtColumn=2
+			break
 		fi
+	fi
+}
+
+#FUNCTION TO PLACE AT CORNER IF VACANT
+function placeAtCorner() {
+	isCornerEmpty=$TRUE
+	if [[ ${Board[0,0]} == " " ]]
+	then
+		Board[0,0]=$COMP_LETTER
+	elif [[ ${Board[0,2]} == " " ]]
+	then
+		Board[0,2]=$COMP_LETTER
+	elif [[ ${Board[2,0]} == " " ]]
+	then
+		Board[2,0]=$COMP_LETTER
+	elif [[ ${Board[2,2]} == " "  ]]
+	then
+		Board[2,2]=$COMP_LETTER
+	else
+		isCornerEmpty=$FALSE
 	fi
 }
 
@@ -211,6 +237,8 @@ function playTicTacToe() {
 				if [[ $placeAtRow != "" && $placeAtColumn != "" ]]
 				then
 					Board[$placeAtRow,$placeAtColumn]=$COMP_LETTER
+				else
+					placeAtCorner
 				fi
 			fi
 			(( vacantCells-- ))
