@@ -239,6 +239,14 @@ function playTicTacToe() {
 					Board[$placeAtRow,$placeAtColumn]=$COMP_LETTER
 				else
 					placeAtCorner
+					if [ $isCornerEmpty -eq $FALSE ]
+					then
+#PLACING AT CENTRE
+						if [[ ${Board[1,1]} == " " ]]
+						then
+							Board[1,1]=$COMP_LETTER
+						fi
+					fi
 				fi
 			fi
 			(( vacantCells-- ))
