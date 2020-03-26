@@ -113,4 +113,6 @@ displayBoard
 resetBoard
 checkWinning
 
+echo "Computer is playing smart like you, So be focused"
+
 sleep 1
