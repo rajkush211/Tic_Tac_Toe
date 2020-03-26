@@ -226,56 +226,62 @@ function placeAtSide() {
 
 function playTicTacToe() {
 	echo "You are assigned letter:- $USER_LETTER"
-	tossForTurn
 	resetBoard
-	displayBoard
-	checkIfAnyoneWon
-	if [[ $isWon -eq $FALSE && $vacantCells -ne 0 ]]
-	then
-		if [ $whoseTurn -eq $USER_TURN ]
+	tossForTurn
+	while true
+	do
+		displayBoard
+		checkIfAnyoneWon
+		if [[ $isWon -eq $FALSE && $vacantCells -ne 0 ]]
 		then
-			while true
-			do
-				read -p "Your turn to play enter row(0-2) and column(0-2): " row column
-				if [[ ${Board[$row,$column]} == " " ]]
-				then
-					Board[$row,$column]=$USER_LETTER
-					(( vacantCells-- ))
-					break
-				fi
-			done
-		else
-			echo "Computer's Turn"
-#CHECKING IF COMPUTER CAN WIN
-			checkCanWin $COMP_LETTER
-			if [[ $placeAtRow != "" && $placeAtColumn != "" ]]
+			if [ $whoseTurn -eq $USER_TURN ]
 			then
-				Board[$placeAtRow,$placeAtColumn]=$COMP_LETTER
+				while true
+				do
+					read -p "Your turn to play enter row(0-2) and column(0-2): " row column
+					if [[ ${Board[$row,$column]} == " " ]]
+					then
+						Board[$row,$column]=$USER_LETTER
+						(( vacantCells-- ))
+						break
+					fi
+				done
 			else
-#BLOCKING USER FROM WINNING
-				checkCanWin $USER_LETTER
+				echo "Computer's Turn"
+#CHECKING IF COMPUTER CAN WIN
+				checkCanWin $COMP_LETTER
 				if [[ $placeAtRow != "" && $placeAtColumn != "" ]]
 				then
 					Board[$placeAtRow,$placeAtColumn]=$COMP_LETTER
 				else
-					placeAtCorner
-					if [ $isCornerEmpty -eq $FALSE ]
+#BLOCKING USER FROM WINNING
+					checkCanWin $USER_LETTER
+					if [[ $placeAtRow != "" && $placeAtColumn != "" ]]
 					then
-#PLACING AT CENTRE
-						if [[ ${Board[1,1]} == " " ]]
+						Board[$placeAtRow,$placeAtColumn]=$COMP_LETTER
+					else
+						placeAtCorner
+						if [ $isCornerEmpty -eq $FALSE ]
 						then
-							Board[1,1]=$COMP_LETTER
+#PLACING AT CENTRE IF EMPTY
+							if [[ ${Board[1,1]} == " " ]]
+							then
+								Board[1,1]=$COMP_LETTER
 #PLACING AT ANY SIDE
-						else
-							placeAtSide
+							else
+								placeAtSide
+							fi
 						fi
 					fi
 				fi
+				(( vacantCells-- ))
 			fi
-			(( vacantCells-- ))
-			whoseTurn=$(( 1 - whoseTurn ))
+		else
+			break
 		fi
-	fi
+#CHANGING THE TURN AFTER ONE PLACING
+			whoseTurn=$(( 1 - whoseTurn ))
+	done
 }
 
 playTicTacToe
