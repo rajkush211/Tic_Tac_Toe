@@ -204,6 +204,26 @@ function placeAtCorner() {
 	fi
 }
 
+#FUNCTION TO PLACE AT ANY SIDE 
+function placeAtSide() {
+	isSideEmpty=$TRUE
+	if [[ ${Board[0,1]} = " " ]]
+	then
+		Board[0,1]=$compChar
+	elif [[ ${Board[1,0]} = " " ]]
+	then
+		Board[1,0]=$compChar
+	elif [[ ${Board[1,2]} = " " ]]
+	then
+		Board[1,2]=$compChar
+	elif [[ ${Board[2,1]} = " " ]]
+	then
+		Board[2,1]=$compChar
+	else
+		isSideEmpty=$FALSE
+	fi
+}
+
 function playTicTacToe() {
 	echo "You are assigned letter:- $USER_LETTER"
 	tossForTurn
@@ -245,6 +265,9 @@ function playTicTacToe() {
 						if [[ ${Board[1,1]} == " " ]]
 						then
 							Board[1,1]=$COMP_LETTER
+#PLACING AT ANY SIDE
+						else
+							placeAtSide
 						fi
 					fi
 				fi
