@@ -106,7 +106,7 @@ function checkIfAnyoneWon() {
 	fi
 }
 
-function checkCanCompWin() {
+function checkCanWin() {
 	letter=$1
 	placeAtRow=""
 	placeAtColumn=""
@@ -200,10 +200,18 @@ function playTicTacToe() {
 			done
 		else
 			echo "Computer's Turn"
-			checkCanCompWin $COMP_LETTER
+#CHECKING IF COMPUTER CAN WIN
+			checkCanWin $COMP_LETTER
 			if [[ $placeAtRow != "" && $placeAtColumn != "" ]]
 			then
 				Board[$placeAtRow,$placeAtColumn]=$COMP_LETTER
+			else
+#BLOCKING USER FROM WINNING
+				checkCanWin $USER_LETTER
+				if [[ $placeAtRow != "" && $placeAtColumn != "" ]]
+				then
+					Board[$placeAtRow,$placeAtColumn]=$COMP_LETTER
+				fi
 			fi
 			(( vacantCells-- ))
 			whoseTurn=$(( 1 - whoseTurn ))
